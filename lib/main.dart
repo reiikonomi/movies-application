@@ -1,15 +1,27 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
 import 'package:movies_application/res/app-theme.dart';
 import 'package:movies_application/utils/routes/routes-name.dart';
 import 'package:movies_application/utils/routes/routes.dart';
 import 'package:movies_application/view-model/home-view-model.dart';
+import 'package:movies_application/view/auth/login/login-screen.dart';
+import 'package:movies_application/view/home/home-screen.dart';
+import 'package:movies_application/view/onboard/onboard-screen.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
+Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ),
+  );
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await initialization(null);
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
@@ -27,6 +39,14 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeViewViewModel()),
+        Provider<AuthenticationProvider?>(
+          create: (_) => AuthenticationProvider(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) =>
+              context.read<AuthenticationProvider?>()!.authState,
+          initialData: null,
+        )
       ],
       child: MaterialApp(
         scrollBehavior: CustomScrollBehavior(),
@@ -55,5 +75,29 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+class AuthenticationProvider {
+  final FirebaseAuth firebaseAuth;
+  AuthenticationProvider(this.firebaseAuth);
+  Stream<User?> get authState => firebaseAuth.idTokenChanges();
+  Future<void> signOut() async {
+    await firebaseAuth.signOut();
+  }
+}
+
+class Authenticate extends StatelessWidget {
+  const Authenticate({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User?>();
+
+    if (firebaseUser != null) {
+      return const HomeScreen();
+    } else {
+      return const LoginScreen();
+    }
   }
 }

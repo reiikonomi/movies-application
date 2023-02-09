@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:movies_application/data/app-exceptions.dart';
 import 'package:movies_application/data/network/base-api-services.dart';
-import 'package:movies_application/models/movies.model.dart';
 
 class NetworkApiServices extends BaseApiServices {
   dynamic responseJson;
@@ -13,7 +12,6 @@ class NetworkApiServices extends BaseApiServices {
     try {
       final response = await http.get(Uri.parse(url));
       responseJson = returnResponse(response);
-      debugPrint(response.body.toString());
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }

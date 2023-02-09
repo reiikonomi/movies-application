@@ -29,5 +29,5 @@ class AppString {
 
   //imagePath
 
-  final String pathOnboardImage = "";
+  final String pathOnboardImage = "assets/onboard.png";
 }

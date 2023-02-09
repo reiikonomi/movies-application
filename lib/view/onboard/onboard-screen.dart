@@ -46,7 +46,7 @@ class OnboardScreen extends StatelessWidget {
         ),
         ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(RoutesName.home);
+              Navigator.of(context).pushNamed(RoutesName.login);
             },
             child: SizedBox(
               width: width * .4,
