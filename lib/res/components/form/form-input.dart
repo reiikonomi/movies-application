@@ -35,6 +35,7 @@ class FormInput extends StatelessWidget {
         onSaved: (value) {
           formController.text = value!;
         },
+        style: const TextStyle(color: AppColors.whiteColor),
         textInputAction: inputAction,
         decoration: InputDecoration(
           prefixIcon: icon,

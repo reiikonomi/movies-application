@@ -26,6 +26,7 @@ class FormConfirmPassword extends StatelessWidget {
         onSaved: (value) {
           confirmPasswordEditingController.text = value!;
         },
+        style: const TextStyle(color: AppColors.whiteColor),
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.vpn_key),
