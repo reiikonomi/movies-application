@@ -7,14 +7,14 @@
 ![LoginScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/login-screen.png)
 
 ## SignUp Screen
-![LoginScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/sign-up-screen.png)
+![SignpScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/sign-up-screen.png)
 
 ## Home Screen
-![LoginScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/home-screen.png)
+![HomeScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/home-screen.png)
 
 ## Movie details Screen
-![LoginScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/details-screen.png)
+![DetailsScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/details-screen.png)
 
 ## Profile/Watchlist Screen
-![LoginScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/profile-watchlist-screen.png)
+![ProfileScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/profile-watchlist.png)
 
