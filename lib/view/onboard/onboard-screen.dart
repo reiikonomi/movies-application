@@ -19,7 +19,7 @@ class OnboardScreen extends StatelessWidget {
             width: width,
             child: Image.asset(
               AppString.instance.pathOnboardImage,
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
             ),
           ),
           _onboardBody(

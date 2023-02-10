@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movies_application/models/movies.model.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:image_card/image_card.dart';
 import 'package:movies_application/res/colors.dart';
 import 'package:movies_application/res/components/red-button.dart';
 import 'package:movies_application/res/components/white-border-button.dart';
-import 'package:movies_application/res/style/text-style.dart';
 import 'package:movies_application/view/home/movies/details/movie-details.dart';
 
 class MovieItem extends StatelessWidget {
@@ -22,113 +22,122 @@ class MovieItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Stack(alignment: Alignment.bottomLeft, children: [
-          _moviePoster(height, width),
-          _movieDetail(width, height, context),
-        ]),
+        Stack(alignment: Alignment.bottomLeft, children: []),
         SizedBox(
           height: height * 0.02,
           width: width,
+        ),
+        TransparentImageCard(
+          width: width,
+          height: height * 0.3,
+          imageProvider: NetworkImage("${movies['posterurl']}"),
+          tags: [
+            _tag(movies['genres'][0], () {}),
+          ],
+          title: _title(color: AppColors.whiteColor),
+          description: _content(
+              AppColors.whiteColor,
+              context,
+              RedButton(width: width, height: height),
+              WhiteBorderButton(width: width, height: height)),
+        ),
+      ],
+    );
+  }
+
+  Widget _title({Color? color}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          movies['title'],
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w600, color: color),
+        ),
+        RatingBar.builder(
+          initialRating: movies['ratings'][0].toDouble(),
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemSize: 25,
+          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => const Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            print(rating);
+          },
         )
       ],
     );
   }
 
-  Padding _movieDetail(double width, double height, BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
+  Widget _content(
+      Color? color, BuildContext? context, Widget? redButton, whiteButton) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(5),
-              alignment: Alignment.centerLeft,
-              width: width * .7,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    movies['title'] == null
-                        ? const Text("N/A")
-                        : _movieTitle(
-                            WhiteBorderButton(width: width, height: height),
-                            RedButton(width: width, height: height),
-                            context),
-                    SizedBox(
-                      height: height * .02,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context!,
+                  MaterialPageRoute(
+                    builder: (context) => MovieDetails(
+                      title: movies['title'],
+                      year: movies['year'],
+                      posterUrl: movies['posterurl'],
+                      duration: movies['duration'],
+                      averageRating: movies['averagerating'],
+                      actors: [movies['actors']],
+                      originalTitle: movies['originaltitle'],
+                      storyline: movies['storyline'],
+                      genres: [movies['genres']],
+                      imdbRating: movies['imdbrating'],
+                      ratings: [movies['ratings']],
+                      releaseDate: movies['releasedate'],
                     ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: width * .05,
-                          ),
-                        ])
-                  ]),
-            ),
-          ],
-        ));
-  }
-
-  Container _movieTitle(whiteButton, redButton, BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.6),
-            borderRadius: BorderRadius.circular(4)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              movies['title'].toString(),
-              style: AppStyle.instance.h4Bold.copyWith(
-                color: AppColors.whiteColor,
-              ),
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MovieDetails(
-                            title: movies['title'],
-                            year: movies['year'],
-                            posterUrl: movies['posterurl'],
-                            duration: movies['duration'],
-                            averageRating: movies['averagerating'],
-                            actors: [movies['actors']],
-                            originalTitle: movies['originaltitle'],
-                            storyline: movies['storyline'],
-                            genres: [movies['genres']],
-                            imdbRating: movies['imdbrating'],
-                            ratings: [movies['ratings']],
-                            releaseDate: movies['releasedate'],
-                          ),
-                        ),
-                      );
-                    },
-                    child: redButton,
                   ),
-                  whiteButton,
-                ])
+                );
+              },
+              child: redButton,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                print(movies);
+              },
+              child: whiteButton,
+            ),
           ],
-        ));
+        ),
+        Text(
+          movies['year'],
+          style: TextStyle(color: color),
+        ),
+      ],
+    );
   }
 
-  Container _moviePoster(double height, double width) {
-    return Container(
-      height: height * .45,
-      width: width,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              filterQuality: FilterQuality.high,
-              fit: BoxFit.cover,
-              image: NetworkImage("${movies['posterurl']}"))),
+  Widget _tag(String tag, VoidCallback onPressed) {
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6), color: AppColors.redColor),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        child: Text(
+          tag,
+          style: const TextStyle(color: AppColors.whiteColor),
+        ),
+      ),
     );
   }
 }

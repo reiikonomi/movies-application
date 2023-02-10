@@ -32,8 +32,8 @@ class RedButton extends StatelessWidget {
             width: width * .02,
           ),
           Text(
-            "Play",
-            style: AppStyle.instance.bodyXLarge,
+            "Watch",
+            style: AppStyle.instance.bodyMedium,
           ),
         ],
       ),
