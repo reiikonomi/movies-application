@@ -50,6 +50,7 @@ dependencies:
   flutter_svg: ^1.1.6
   image_card: ^0.0.4
   flutter_rating_bar: ^4.0.1
+  shared_preferences: ^2.0.17
 
 flutter_native_splash:
   color: "#181A20"

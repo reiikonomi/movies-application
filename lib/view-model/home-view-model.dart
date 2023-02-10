@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:movies_application/data/response/api-response.dart';
 import 'package:movies_application/repository/home-repository.dart';
 
-import '../models/movies.model.dart';
-
 class HomeViewViewModel with ChangeNotifier {
   final _movieRepo = HomeRepository();
 

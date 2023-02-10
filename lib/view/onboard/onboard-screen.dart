@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movies_application/main.dart';
 import 'package:movies_application/res/constants/string-constants.dart';
+import 'package:movies_application/res/style/text-style.dart';
 import 'package:movies_application/utils/routes/routes-name.dart';
 
 class OnboardScreen extends StatelessWidget {
@@ -36,11 +38,10 @@ class OnboardScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        // TitleWidget(titleText: AppString.instance.textWelcome),
-        // SizedBox(
-        //   height: height * .02,
-        // ),
-        // TextSubWidget(text: AppString.instance.textOnboardSub),
+        Text(AppString.instance.textWelcome, style: AppStyle.instance.h2Bold),
+        SizedBox(
+          height: height * .4,
+        ),
         SizedBox(
           height: height * .02,
         ),

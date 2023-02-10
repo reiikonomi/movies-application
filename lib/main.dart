@@ -11,7 +11,6 @@ import 'package:movies_application/utils/routes/routes.dart';
 import 'package:movies_application/view-model/home-view-model.dart';
 import 'package:movies_application/view/auth/login/login-screen.dart';
 import 'package:movies_application/view/home/home-screen.dart';
-import 'package:movies_application/view/onboard/onboard-screen.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

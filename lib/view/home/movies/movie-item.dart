@@ -1,17 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_card/image_card.dart';
 import 'package:movies_application/res/colors.dart';
 import 'package:movies_application/res/components/red-button.dart';
 import 'package:movies_application/res/components/white-border-button.dart';
+import 'package:movies_application/utils/routes/routes-name.dart';
+import 'package:movies_application/view/home/movies/components/rating.dart';
 import 'package:movies_application/view/home/movies/details/movie-details.dart';
+import 'package:movies_application/view/home/profile/profile-screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MovieItem extends StatelessWidget {
   final dynamic movies;
-  const MovieItem({
-    Key? key,
-    required this.movies,
-  }) : super(key: key);
+  final String buttonText;
+  const MovieItem({Key? key, required this.movies, required this.buttonText})
+      : super(key: key);
+
+  _saveToWatchList(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var previousIds = prefs.getStringList('watchList') ?? [];
+    if (previousIds.contains(id)) {
+      Fluttertoast.showToast(
+          msg: "Already added to watch list",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    } else {
+      Fluttertoast.showToast(
+          msg: "Succesfully added to watch list",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      await prefs.setStringList("watchList", [...previousIds, id]);
+    }
+  }
+
+  _remmoveFromWatchList(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var previousIds = prefs.getStringList('watchList') ?? [];
+
+    previousIds.removeWhere((element) => element == id);
+    await prefs.setStringList("watchList", previousIds);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +59,6 @@ class MovieItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Stack(alignment: Alignment.bottomLeft, children: []),
         SizedBox(
           height: height * 0.02,
           width: width,
@@ -39,7 +75,11 @@ class MovieItem extends StatelessWidget {
               AppColors.whiteColor,
               context,
               RedButton(width: width, height: height),
-              WhiteBorderButton(width: width, height: height)),
+              WhiteBorderButton(
+                width: width,
+                height: height,
+                text: buttonText,
+              )),
         ),
       ],
     );
@@ -55,28 +95,13 @@ class MovieItem extends StatelessWidget {
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.w600, color: color),
         ),
-        RatingBar.builder(
-          initialRating: movies['ratings'][0].toDouble(),
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemSize: 25,
-          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) => const Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          onRatingUpdate: (rating) {
-            print(rating);
-          },
-        )
+        Rating(ratings: movies['ratings']),
       ],
     );
   }
 
   Widget _content(
-      Color? color, BuildContext? context, Widget? redButton, whiteButton) {
+      Color? color, BuildContext context, Widget? redButton, whiteButton) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -86,9 +111,10 @@ class MovieItem extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.push(
-                  context!,
+                  context,
                   MaterialPageRoute(
                     builder: (context) => MovieDetails(
+                      id: movies['id'],
                       title: movies['title'],
                       year: movies['year'],
                       posterUrl: movies['posterurl'],
@@ -112,7 +138,13 @@ class MovieItem extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                print(movies);
+                if (buttonText == 'Save') {
+                  _saveToWatchList(movies['id']);
+                }
+                if (buttonText == 'Remove') {
+                  _remmoveFromWatchList(movies['id']);
+                  Navigator.of(context).pushNamed(RoutesName.profile);
+                }
               },
               child: whiteButton,
             ),

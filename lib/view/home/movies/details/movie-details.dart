@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movies_application/res/colors.dart';
-import 'package:movies_application/res/components/white-border-button.dart';
 import 'package:movies_application/res/style/text-style.dart';
 import 'package:movies_application/utils/routes/routes-name.dart';
+import 'package:movies_application/view/home/movies/components/rating.dart';
+import 'package:movies_application/view/home/movies/components/tags.dart';
 
 class MovieDetails extends StatelessWidget {
   const MovieDetails(
@@ -19,8 +20,10 @@ class MovieDetails extends StatelessWidget {
       this.genres,
       this.actors,
       this.releaseDate,
-      this.ratings});
+      this.ratings,
+      this.id});
 
+  final String? id;
   final String? title;
   final String? posterUrl;
   final String? year;
@@ -75,16 +78,9 @@ class MovieDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          title!,
-                          style: AppStyle.instance.h2Bold,
-                        ),
-                        WhiteBorderButton(width: width, height: height),
-                      ],
+                    Text(
+                      title!,
+                      style: AppStyle.instance.h2Bold,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,69 +104,19 @@ class MovieDetails extends StatelessWidget {
                           onRatingUpdate: (rating) {
                             print(rating);
                           },
-                        )
+                        ),
                       ],
                     ),
                     Text(
                       'Genres:',
                       style: AppStyle.instance.h5Bold,
                     ),
-                    Container(
-                      height: 40,
-                      width: width,
-                      color: Colors.transparent,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: genres![0].length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 5, bottom: 5, right: 5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.redColor,
-                                ),
-                                padding: const EdgeInsets.all(5),
-                                child: Text(genres![0][index],
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.whiteColor)),
-                              ),
-                            );
-                          }),
-                    ),
+                    Tags(width: width, height: 40, data: genres!),
                     Text(
                       'Actors:',
                       style: AppStyle.instance.h5Bold,
                     ),
-                    Container(
-                      height: 40,
-                      width: width,
-                      color: Colors.transparent,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: actors![0].length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 5, bottom: 5, right: 5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.redColor,
-                                ),
-                                padding: const EdgeInsets.all(5),
-                                child: Text(actors![0][index],
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.whiteColor)),
-                              ),
-                            );
-                          }),
-                    ),
+                    Tags(width: width, height: 40, data: actors!),
                     Text(
                       storyline!,
                       style: AppStyle.instance.h5Bold,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movies_application/data/firebase/firebase-exceptions.dart';
 import 'package:movies_application/models/user.model.dart';
+import 'package:movies_application/utils/routes/routes-name.dart';
 
 void signUp(
     BuildContext context,
@@ -18,7 +19,8 @@ void signUp(
     try {
       await auth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore(auth, firstName, lastName)})
+          .then((value) =>
+              {postDetailsToFirestore(auth, firstName, lastName, context)})
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
@@ -28,7 +30,7 @@ void signUp(
   }
 }
 
-postDetailsToFirestore(auth, firstName, lastName) async {
+postDetailsToFirestore(auth, firstName, lastName, context) async {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   User? user = auth.currentUser;
 
@@ -47,8 +49,5 @@ postDetailsToFirestore(auth, firstName, lastName) async {
       backgroundColor: Colors.deepOrange,
       textColor: Colors.white);
 
-  // Navigator.pushAndRemoveUntil(
-  //     (context),
-  //     MaterialPageRoute(builder: (context) => const NavBar()),
-  //     (route) => false);
+  Navigator.of(context).pushNamed(RoutesName.home);
 }

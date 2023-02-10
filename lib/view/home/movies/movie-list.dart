@@ -4,6 +4,7 @@ import 'package:movies_application/models/movies.model.dart';
 import 'package:movies_application/view-model/home-view-model.dart';
 import 'package:movies_application/view/home/movies/movie-item.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MovieList extends StatefulWidget {
   const MovieList({Key? key}) : super(key: key);
@@ -62,7 +63,10 @@ class _MovieListState extends State<MovieList> {
           shrinkWrap: true,
           itemCount: value.moviesList.data!.length,
           itemBuilder: (context, index) {
-            return MovieItem(movies: value.moviesList.data![index]);
+            return MovieItem(
+              movies: value.moviesList.data![index],
+              buttonText: 'Save',
+            );
           }),
     );
   }

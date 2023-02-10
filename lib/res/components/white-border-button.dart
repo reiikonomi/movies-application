@@ -7,10 +7,12 @@ class WhiteBorderButton extends StatelessWidget {
     Key? key,
     required this.width,
     required this.height,
+    required this.text,
   }) : super(key: key);
 
   final double width;
   final double height;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +28,8 @@ class WhiteBorderButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.add,
-            color: AppColors.whiteColor,
-            size: 25,
-          ),
           Text(
-            "My list",
+            text,
             style: AppStyle.instance.bodyXLarge,
           ),
         ],
