@@ -1,16 +1,20 @@
 # movies_application
 
-A new Flutter project.
+## Onboard Screen
+![OnBoardScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/onboard-screen.png)
 
-## Getting Started
+## Login Screen
+![LoginScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/login-screen.png)
 
-This project is a starting point for a Flutter application.
+## SignUp Screen
+![SignpScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/sign-up-screen.png)
 
-A few resources to get you started if this is your first Flutter project:
+## Home Screen
+![HomeScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/home-screen.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Movie details Screen
+![DetailsScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/details-screen.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Profile/Watchlist Screen
+![ProfileScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/profile-watchlist.png)
+
