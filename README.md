@@ -1,7 +1,7 @@
 # movies_application
 
-## APk to download the app
-![Apk](https://github.com/reiikonomi/movies-application/blob/main/app-release.apk)
+## APK to download the app
+[Apk](https://github.com/reiikonomi/movies-application/blob/main/app-release.apk)
 
 ## Onboard Screen
 ![OnBoardScreen](https://github.com/reiikonomi/movies-application/blob/main/screenshots/onboard-screen.png)
